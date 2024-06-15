@@ -11,11 +11,8 @@ const listingSchema = new Schema({
     },
     description:String,
     image:{
-       type: String,
-      
-       default:"https://rukminim2.flixcart.com/image/850/1000/kgsb1jk0-0/poster/n/h/y/medium-twfnp2-beautiful-waterfall-nature-view-large-size-high-original-imafwy37qv2b5g3v.jpeg?q=90&crop=false",
-       set:(v) => v === ""? "https://rukminim2.flixcart.com/image/850/1000/kgsb1jk0-0/poster/n/h/y/medium-twfnp2-beautiful-waterfall-nature-view-large-size-high-original-imafwy37qv2b5g3v.jpeg?q=90&crop=false"
-       : v,
+       url: String,
+       filename:String,
     },
     price:Number,
     location:String,
