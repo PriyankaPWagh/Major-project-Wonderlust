@@ -41,6 +41,7 @@ app.use((req,res,next) =>{
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.currUser = req.user;
+
   next();
 });
 
@@ -84,9 +85,9 @@ app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/",usersRouter);
 
 
-app.get("/",(req,res) =>{
-    res.send("hi welcome and make the project with understanding");
-});
+// app.get("/",(req,res) =>{
+//     res.send("hi welcome and make the project with understanding");
+// });
 app.all("*",(req,res,next) =>{
   next(new ExpressError(404,"Page Not Found"));
 });

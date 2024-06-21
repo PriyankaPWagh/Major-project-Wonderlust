@@ -183,3 +183,23 @@ text-decoration: underline;
     bottom:4px;
 }  
 
+/* map */
+#map {
+     height:400px;
+     width: 80vh;
+     }
+
+     @media screen and (max-width: 450px) {
+        #map {
+            margin-left: 2% !important;
+            width: 200px;
+            height: 250px;
+        }
+    }
+    @media screen and (min-width: 540px) {
+        #map {
+            margin-left: 2% !important;
+            width: 300px;
+            height: 300px;
+        }
+    }

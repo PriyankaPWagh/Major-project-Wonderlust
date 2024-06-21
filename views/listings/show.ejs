@@ -1,4 +1,65 @@
 <% layout("/layouts/boilerplate.ejs") %>
+
+<script>
+   const mapToken = "<%= process.env.MAP_TOKEN%>";
+   const listing = <%- JSON.stringify(listing)%>;
+</script>
+<style>
+  
+  .custom-marker {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-color:  #ff007f; /* Pink color */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.custom-marker::after {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background-color:  rgba(255, 0, 127, 0.2); /* Lighter pink circle */
+    border-radius: 50%;
+    z-index: -1; /* Behind the main marker */
+}
+.custom-marker::before {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background-color: rgba(255, 0, 127, 0.2); /* Lighter pink circle */
+    border-radius: 50%;
+    z-index: -1; /* Behind the main marker */
+}
+
+.custom-marker-icon {
+    color: white;
+    font-size: 20px;
+}
+
+.mapboxgl-popup-content {
+    text-align: center;
+}
+
+
+@media screen and (max-width: 450px) {
+  .mapboxgl-popup-content {
+
+font-size:0.6rem;
+text-align: center;
+
+  }
+
+
+
+}
+
+</style>
 <div class="row mt-3">
     <div class="col-8 offset-3 show-card">
     <h2><%=listing.title%> </h2>
@@ -22,7 +83,7 @@
 <div class="btns">
   <% if(currUser && currUser._id.equals(listing.owner._id) ){%>
     
-<a href="/listings/<%=listing._id%>/edit" class="btn btn-dark col-1 offset-3 edit-btn"> Edit </a>
+<a href="/listings/<%=listing._id%>/edit" class="btn btn-dark  offset-3 edit-btn"> Edit </a>
 
 <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
     <button class="btn btn-dark offset-5 delete-btn ">DELETE</button>
@@ -75,9 +136,9 @@
 
 </form>
 <%}%>
-
-<p><b>All Reviews</b></p>
+<%if(listing.reviews.length > 0){%>
 <div class="row">
+<p><b>All Reviews</b></p>
 <%for(review of listing.reviews){%>
  <div class="card col-5 ms-3 mb-3">
   <div class="card-body">
@@ -95,13 +156,17 @@
  </div>
 <%}%>
 </div>
+<%}%>
 
-
+<div class="col-8 offset-3 mb-3"></div>
+<h3>Where you’ll be</h3>
+<div id="map"></div>
 
 </div>
 
-
 </div>
+<script src="/js/map.js"></script>
+
 
 
 
