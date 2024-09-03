@@ -38,15 +38,28 @@ const listingSchema = new Schema({
            type: [Number],
            required: true
          }
-       }
+       },
+       category: {
+         type: [String],
+         required: true,
+         enum: ["Trending", "Rooms", "Iconic cities", "Mountains", "Castles", "Amazing pools", "Camping", "Farms", "Arctic", "Domes", "Boats"]
+     }
+ 
+ 
    
 
 
 });
+//when the listing is deleted, delete the reviews associated with that listing.
 listingSchema.post("findOneAndDelete",async(listing) =>{
    if(listing){
       await Review.deleteMany({_id:{$in:listing.reviews}});
    }
+});
+
+//creating indexes for effiecient query processing.
+listingSchema.index({
+   title: 'text', description: 'text', location: 'text', country: 'text', category: 1, reviews: 1, owner: 1, geometry: "2dsphere"
 });
 
 

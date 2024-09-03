@@ -23,17 +23,6 @@ customMarker.style.height = '50px'; // set the height of your icon
 customMarker.style.backgroundSize = "100%";
 // customMarker.style.backgroundColor = 'pink';
 
-// Add the custom marker to the map
-new mapboxgl.Marker(customMarker)
-    .setLngLat(listing.geometry.coordinates)
-    .setPopup(
-        new mapboxgl.Popup({ offset: 25 }).setHTML(
-            `<h5>${listing.title}</h5><p>Exact location will be provided after booking</p>`
-        )
-    )
-    .addTo(map);
-
-
 
      
 

@@ -35,10 +35,17 @@ module.exports.isOwner = async(req,res,next)=>{
 }
 
 
-
+//function to validate listing for adding and editing listing: Joi validation
 module.exports. validateListing = (req,res,next) =>{
+   //If user only selects one category, it converts the string to [string]
+    //for schema validations.
+    if (typeof req.body.listing.category === 'string') {
+      req.body.listing.category = [req.body.listing.category];
+  }
+
     let {error} =  listingSchema.validate(req.body);
     if(error){
+      //if there is an error, extract details and throw ExpressError.
       let errMsg = error.details.map((el) =>el.message).join(",");
         throw new ExpressError(400,errMsg);
       }else{
@@ -47,6 +54,7 @@ module.exports. validateListing = (req,res,next) =>{
   
   }
 
+  //function to validate review for adding reviews: Joi validation
   module.exports. validateReview = (req,res,next) =>{
     let {error} =  reviewSchema.validate(req.body);
     if(error){
@@ -58,6 +66,7 @@ module.exports. validateListing = (req,res,next) =>{
   
   }
 
+  
   module.exports.isReviewAuthor= async(req,res,next)=>{
     let {id,reviewId} = req.params;
     let review= await Review.findById(reviewId);

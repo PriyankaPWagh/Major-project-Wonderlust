@@ -1,9 +1,11 @@
 <% layout("/layouts/boilerplate.ejs") %>
-
-  <script>
-   const mapToken = "<%= process.env.MAP_TOKEN%>";
-   const listing = <%- JSON.stringify(listing)%>;
+<script>
+  const mapToken = "<%= process.env.MAP_API_KEY%>";
+  // console.log(mapToken);
+  const listing = <%- JSON.stringify(listing)%>;
 </script>
+
+
 <style>
   
   .custom-marker {
@@ -45,6 +47,21 @@
 .mapboxgl-popup-content {
     text-align: center;
 }
+
+
+/* 
+    #map{
+        height: 500px;
+        width: 500px;
+       
+         position: absolute; 
+        top:70px;
+        bottom: 0;
+        left: 500px;
+       
+    } */
+
+
 
 
  @media screen and (max-width: 450px) {
@@ -157,7 +174,6 @@ text-align: center;
 <%}%>
 </div>
 <%}%>
-
 <div class="col-8 offset-3 mb-3"></div>
 <h3>Where you’ll be</h3>
 <div id="map"></div>
@@ -165,9 +181,8 @@ text-align: center;
 </div>
 
 </div>
-<!-- <script src="/js/map.js"></script> -->
+ 
+ 
 
 
-
-
-
+ <script src="/js/map2.js"></script>  

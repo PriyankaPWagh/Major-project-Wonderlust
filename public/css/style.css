@@ -160,11 +160,11 @@ text-decoration: underline;
     padding-right: 0;
 }
 /* delete popover */
-.delete-btn {
+/* .delete-btn {
     margin-left: 10px;
-    color: red;
+    color: red ;
     cursor: pointer;
-}
+} */
 
 .popover {
     display: none;
@@ -184,22 +184,46 @@ text-decoration: underline;
 }  
 
 /* map */
-#map {
+/* #map {
      height:400px;
      width: 80vh;
-     }
+     } */
 
-     @media screen and (max-width: 450px) {
+       @media screen and (min-width: 540px) {
+        #map {
+            margin-left: 2% !important;
+            width: 300px;
+            height: 300px;
+        }
+    } 
+     @media screen and (min-width:768px) {
+
+        #map {
+            height:400px;
+            width: 80vh;
+            }
+
+     }
+     /* @media screen and (min-width: 540px) {
+        #map {
+            margin-left: 2% !important;
+            width: 300px;
+            height: 300px;
+        }
+    }  */
+
+     /* @media screen and (min-width: 450px) {
         #map {
             margin-left: 2% !important;
             width: 200px;
             height: 250px;
         }
     }
-    @media screen and (min-width: 540px) {
+    
+    @media screen and (max-width: 1024px) {
         #map {
-            margin-left: 2% !important;
-            width: 300px;
-            height: 300px;
+         
+            width: 80vh;
+            height: 400px;
         }
-    }
+    }  

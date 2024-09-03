@@ -1,10 +1,17 @@
 const Listing = require("../models/listing");
-const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const mapToken = process.env.MAP_TOKEN;
-const geocodingClient = mbxGeoCoding({ accessToken: mapToken})
+//  const mbxGeoCoding = require('@maptiler/sdk');
+//  const mapToken = process.env.MAP_API_KEY;
+// const geocodingClient = mbxGeoCoding({ accessToken: mapToken})
+
+// const gc = new maptilersdkMaptilerGeocoder.GeocodingControl({});
+// console.log (gc);
+// const mapToken = process.env.MAP_API_KEY ;
+const axios = require('axios');
+const MAPTILER_API_KEY =  process.env.MAP_API_KEY ;
+
 
 module.exports.index = async(req,res) =>{
-    let allListing =await  Listing.find({});
+    let allListing =await  Listing.find({})
     res.render("listings/index.ejs",{allListing})
   }
 
@@ -25,19 +32,22 @@ module.exports.index = async(req,res) =>{
       req.flash("error","Listing you requested for does not exist!");
       res.redirect("/listings");
     }
-    console.log(listing);
-    res.render("listings/show.ejs",{listing});
+    // console.log(listing);
+    res.render("listings/show2.ejs",{listing});
 
 }
 
 module.exports.createListing = async(req,res,next) =>{
-  let responce=await geocodingClient.forwardGeocode({
-    query: req.body.listing.location,
-    limit: 1
-  })
-    .send()
-    
-    // console.log(responce.body.features[0].geometry);
+  // let responce=await geocodingClient.forwardGeocode({
+  //   query: req.body.listing.location,
+  //   limit: 1
+  // })
+  //   .send()
+  const location = req.body.listing.location;
+  console.log("location",location);
+  const response = await axios.get(`https://api.maptiler.com/geocoding/${encodeURIComponent(location)}.json?key=${MAPTILER_API_KEY}`);
+  // console.log("Response",response);
+    console.log("features",response.data.features[0].geometry);
    
 
   let url = req.file.path;
@@ -48,9 +58,9 @@ module.exports.createListing = async(req,res,next) =>{
   console.log(req.user);
   newlisting.owner=req.user._id;
   newlisting.image = {url,filename};
-  newlisting.geometry = responce.body.features[0].geometry;
+   newlisting.geometry = response.data.features[0].geometry;
    let savelisting = await newlisting.save();
-   console.log(savelisting);
+  console.log(savelisting);
 
 req.flash("success","New Listing Created");
 res.redirect("/listings");
@@ -92,3 +102,25 @@ console.log("deleted Listing = ",deletedListing);
 req.flash("success","Listing Deleted!");
 res.redirect("/listings");
 }
+
+
+module.exports.filterListings=async(req, res)=>{
+  let category=req.query.filter;
+  let allListings=await Listing.find({}).where('category').in(category);    
+  res.render("listings/category.ejs", {allListings: allListings, category: category});
+};
+
+module.exports.searchListings=async(req, res)=>{
+  let {searchInput}=req.query;
+  const regex=new RegExp(searchInput, "i");
+  let searchedListing=await Listing.find({
+      $or:[
+          {title: {$regex: regex}},
+          {description: {$regex:regex}},
+          {location: {$regex: regex}},
+          {country: {$regex:regex}},
+          {category: {$regex: regex}}
+      ]
+  });
+  res.render("listings/category.ejs",{allListings: searchedListing, category: searchInput});
+};

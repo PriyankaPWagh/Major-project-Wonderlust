@@ -4,7 +4,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 
 
 
-
+//passpost local mongoose will create username, password itself.
 const userSchema = new Schema ({
     email:{
         type:String,

@@ -16,13 +16,21 @@ const upload = multer({ storage });
      validateListing,       
       wrapAsync(listingController.createListing)
     );  
-  // .post( upload.single('listing[image]'),(req,res) =>{
-  //   res.send(req.file);
-  // })
+  
   
 
   // render new form
+  /*use listing/:id later because it can consider even listings/new or listings/anything as id for get req*/
+
+  //add listing: new route(get), take new listings data from user
   router.get("/new", isLoggedIn,listingController.renderNewForm );
+
+  //filter category route
+router.get("/category", wrapAsync(listingController.filterListings));
+ 
+
+//search route
+  router.get("/search", listingController.searchListings);
 
 
   router
