@@ -1,11 +1,5 @@
 const Listing = require("../models/listing");
-//  const mbxGeoCoding = require('@maptiler/sdk');
-//  const mapToken = process.env.MAP_API_KEY;
-// const geocodingClient = mbxGeoCoding({ accessToken: mapToken})
 
-// const gc = new maptilersdkMaptilerGeocoder.GeocodingControl({});
-// console.log (gc);
-// const mapToken = process.env.MAP_API_KEY ;
 const axios = require('axios');
 const MAPTILER_API_KEY =  process.env.MAP_API_KEY ;
 
